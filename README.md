@@ -8,7 +8,7 @@ A FastAPI-based Automatic Speech Recognition (ASR) service using NVIDIA NeMo's H
 - **FastAPI Backend**: RESTful API with automatic documentation
 - **Docker Support**: Fully containerized application
 - **Async Processing**: Non-blocking audio transcription
-- **Input Validation**: Supports .wav files, 5-10 seconds duration, 16kHz sampling rate
+- **Input Validation**: Supports .wav files, 16kHz sampling rate
 
 ## Quick Start
 
