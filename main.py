@@ -27,11 +27,6 @@ app = FastAPI(
     version="1.0.0"
 )
 
-asr_model = nemo_asr.models.EncDecCTCModelBPE.from_pretrained(model_name="stt_hi_conformer_ctc_medium")
-asr_model.eval()
-asr_model.preprocessor.featurizer.dither = 0.0
-asr_model.preprocessor.featurizer.pad_to = 0
-
 class ASRModel:
     def __init__(self):
         """Initialize the ONNX ASR model"""
@@ -45,9 +40,6 @@ class ASRModel:
             self.asr_model.eval()
             self.asr_model.preprocessor.featurizer.dither = 0.0
             self.asr_model.preprocessor.featurizer.pad_to = 0
-            # logger.info(f"Model loaded successfully from {self.model_path}")
-            # logger.info(f"Input name: {self.input_name}")
-            # logger.info(f"Output name: {self.output_name}")
             
         except Exception as e:
             logger.error(f"Failed to load model: {str(e)}")
@@ -82,16 +74,8 @@ class ASRModel:
                 resampler = torchaudio.transforms.Resample(orig_freq=sr, new_freq=16000)
                 waveform = resampler(waveform)
                 
-            # if duration < 5 or duration > 10:
-            #     raise ValueError(f"Audio duration {duration:.2f}s is outside the 5-10 second range")
-            
-            # Normalize audio
-            # audio = audio.astype(np.float32)
-            # if np.max(np.abs(audio)) > 0:
-            #     audio = audio / np.max(np.abs(audio))
-            
             # Move to correct device
-            device = asr_model.device
+            device = self.asr_model.device
             waveform = waveform.to(device)
             
             input_signal_length = torch.tensor([waveform.shape[1]], dtype=torch.int64, device=waveform.device)
@@ -106,7 +90,7 @@ class ASRModel:
     def decode_prediction(self, logits: np.ndarray) -> str:
         """Decode model output to text"""
         try:
-            decoded_text = asr_model.decoding.ctc_decoder_predictions_tensor(logits)
+            decoded_text = self.asr_model.decoding.ctc_decoder_predictions_tensor(logits)
             logger.info(f"Decoded text: {decoded_text[0].text}")
             return decoded_text
             
@@ -213,15 +197,6 @@ async def transcribe_audio(file: UploadFile = File(...)) -> Dict[str, str]:
         try:
             audio, sr = sf.read(temp_file_path)
             duration = len(audio) / sr
-            
-            # if sr != 16000:
-            #     logger.warning(f"Audio sample rate is {sr}Hz, expected 16kHz")
-            
-            # if duration < 5 or duration > 10:
-            #     raise HTTPException(
-            #         status_code=400,
-            #         detail=f"Audio duration {duration:.2f}s is outside the required 5-10 second range"
-            #     )
                 
         except Exception as e:
             raise HTTPException(
