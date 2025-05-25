@@ -22,7 +22,7 @@ A FastAPI-based Automatic Speech Recognition (ASR) service using NVIDIA NeMo's H
 
 2. **Build the Docker image**
    ```bash
-   docker build -t ASR-NeMo-FastAPI .
+   docker build -t asr-fastapi .
    ```
 
 3. **Run the container**
@@ -62,7 +62,7 @@ curl -X POST "http://localhost:8000/transcribe" \
 ```json
 {
   "transcription": "अपना आधा सफर पूरा कर लिया है इस दौरान हमने अनेक विषयों पर बात की स्वाभाविक है कि जो वैश्विक मामारी आ मानव जाति पर संकट आया उस पर हमारी बातचीत कुछ ज्यादा ही रही लेकिन इन दिनों में देख रहा हूं लगातार लोगों में एक विषय परा हो रही है कि आखिर यह साल बीतेगा कोई किसी को फोन भी कर रहा है तो बातचीत इसी विषय से शुरू हो रही है यह साल जल्दी क्यों नहीं बीत रहा कोई लिख रहा है दोस्तों से बात कर रहा है कह रहा है कि साल अच्छा नहीं है कोई कह रहा है दो हजार ब शुभ नहीं है बस लोग यही चाहते हैं कि किसी भी तरह से यह साल जल्द से जल्द बीत जाए साथियों कभी कभीै",
-  "filename": "mkb_june2020_one_minute.wav",
+  "filename": "sample.wav",
   "duration": "60.00s",
   "status": "success"
 }
