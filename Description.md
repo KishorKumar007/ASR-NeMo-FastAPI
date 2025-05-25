@@ -6,9 +6,8 @@
 - **FastAPI Application**: Fully functional REST API with `/transcribe` endpoint
 - **File Upload Handling**: Supports multipart/form-data file uploads with proper validation
 - **Audio Processing Pipeline**: Complete preprocessing pipeline using librosa for audio handling
-- **ONNX Integration**: Framework for ONNX model loading and inference
 - **Async Processing**: Non-blocking audio transcription using ThreadPoolExecutor
-- **Input Validation**: Comprehensive validation for file format, duration, and audio properties
+- **Input Validation**: Comprehensive validation for file format and audio properties
 
 ### ✅ Containerization
 - **Docker Support**: Complete Dockerfile with multi-stage approach
@@ -80,7 +79,7 @@
 ### ⚠️ Partial Implementation: GPU Acceleration
 
 **What's Missing:**
-- CUDA-specific ONNX Runtime configuration
+- ONNX Runtime configuration
 - GPU memory management
 - CUDA availability detection
 
@@ -102,23 +101,12 @@
    ```bash
    # Install NeMo in development environment
    pip install nemo_toolkit[all]
-   
-   # Run model conversion script
-   python convert_to_onnx.py
-   
-   # Test with actual model
-   python -m pytest tests/test_transcription.py
    ```
 
 2. **Tokenizer Implementation**
    - Extract vocabulary from converted NeMo model
    - Implement proper CTC beam search decoding
    - Add language-specific post-processing
-
-3. **Testing Infrastructure**
-   - Create comprehensive test suite with sample audio files
-   - Set up CI/CD pipeline for automated testing
-   - Add performance benchmarking
 
 ### 🎯 Long-term Improvements
 
@@ -150,4 +138,3 @@
 
 1. **Accuracy**: Without proper decoding, transcription accuracy is placeholder-level
 2. **Scalability**: Current implementation handles one request at a time efficiently but lacks horizontal scaling
-3. **Error Recovery**:

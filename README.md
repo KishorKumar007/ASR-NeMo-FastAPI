@@ -1,11 +1,10 @@
-# ASR Transcription Service
+# ASR-NeMo-FastAPI
 
 A FastAPI-based Automatic Speech Recognition (ASR) service using NVIDIA NeMo's Hindi Conformer CTC model, optimized with ONNX for efficient inference.
 
 ## Features
 
 - **Hindi Speech Recognition**: Uses NVIDIA NeMo's `stt_hi_conformer_ctc_medium` model
-- **ONNX Optimization**: Model converted to ONNX format for faster inference
 - **FastAPI Backend**: RESTful API with automatic documentation
 - **Docker Support**: Fully containerized application
 - **Async Processing**: Non-blocking audio transcription
@@ -23,7 +22,7 @@ A FastAPI-based Automatic Speech Recognition (ASR) service using NVIDIA NeMo's H
 
 2. **Build the Docker image**
    ```bash
-   docker build -t asr-service .
+   docker build -t ASR-NeMo-FastAPI .
    ```
 
 3. **Run the container**
@@ -38,14 +37,8 @@ The service will be available at `http://localhost:8000`
 1. **Install dependencies**
    ```bash
    pip install -r requirements.txt
-   ```
 
-2. **Convert model to ONNX** (first time only)
-   ```bash
-   python convert_to_onnx.py
-   ```
-
-3. **Start the server**
+2. **Start the server**
    ```bash
    uvicorn main:app --host 0.0.0.0 --port 8000
    ```
@@ -68,9 +61,9 @@ curl -X POST "http://localhost:8000/transcribe" \
 **Example Response:**
 ```json
 {
-  "transcription": "आपका ऑडियो ट्रांस्क्रिप्शन यहाँ होगा",
-  "filename": "your_audio.wav",
-  "duration": "7.50s",
+  "transcription": "अपना आधा सफर पूरा कर लिया है इस दौरान हमने अनेक विषयों पर बात की स्वाभाविक है कि जो वैश्विक मामारी आ मानव जाति पर संकट आया उस पर हमारी बातचीत कुछ ज्यादा ही रही लेकिन इन दिनों में देख रहा हूं लगातार लोगों में एक विषय परा हो रही है कि आखिर यह साल बीतेगा कोई किसी को फोन भी कर रहा है तो बातचीत इसी विषय से शुरू हो रही है यह साल जल्दी क्यों नहीं बीत रहा कोई लिख रहा है दोस्तों से बात कर रहा है कह रहा है कि साल अच्छा नहीं है कोई कह रहा है दो हजार ब शुभ नहीं है बस लोग यही चाहते हैं कि किसी भी तरह से यह साल जल्द से जल्द बीत जाए साथियों कभी कभीै",
+  "filename": "mkb_june2020_one_minute.wav",
+  "duration": "60.00s",
   "status": "success"
 }
 ```
@@ -95,7 +88,6 @@ print(response.json())
 ## Audio Requirements
 
 - **Format**: .wav files only
-- **Duration**: 5-10 seconds
 - **Sample Rate**: 16kHz (recommended)
 - **Channels**: Mono (recommended)
 
@@ -109,14 +101,11 @@ Once the service is running, visit:
 
 ```
 asr-transcription-service/
-├── main.py                 # FastAPI application
-├── convert_to_onnx.py     # Model conversion script  
+├── main.py                 # FastAPI application  # Model conversion script  
 ├── requirements.txt       # Python dependencies
 ├── Dockerfile            # Container configuration
 ├── README.md            # This file
 ├── Description.md       # Development documentation
-├── models/              # ONNX models directory
-│   └── stt_hi_conformer_ctc_medium.onnx
 └── test_audio/          # Sample audio files (optional)
     └── sample.wav
 ```
@@ -124,7 +113,6 @@ asr-transcription-service/
 ## Design Considerations
 
 ### Performance Optimization
-- **ONNX Runtime**: Faster inference compared to PyTorch
 - **Async Processing**: Non-blocking audio processing using thread pools
 - **Resource Management**: Automatic cleanup of temporary files
 
@@ -135,29 +123,20 @@ asr-transcription-service/
 
 ### Security & Validation
 - **File Type Validation**: Only accepts .wav files
-- **Duration Limits**: Enforces 5-10 second audio duration
 - **Input Sanitization**: Validates audio properties before processing
 
 ## Environment Variables
 
-- `MODEL_PATH`: Path to ONNX model file (default: `/app/models/stt_hi_conformer_ctc_medium.onnx`)
 - `PYTHONUNBUFFERED`: Set to 1 for real-time logging
 
 ## Troubleshooting
 
 ### Common Issues
 
-1. **Model not found error**
-   - Ensure the ONNX model is converted: `python convert_to_onnx.py`
-   - Check the `MODEL_PATH` environment variable
-
-2. **Audio format errors**
+1. **Audio format errors**
    - Convert audio to .wav format using ffmpeg: `ffmpeg -i input.mp3 -ar 16000 -ac 1 output.wav`
 
-3. **Duration validation fails**
-   - Trim audio to 5-10 seconds: `ffmpeg -i input.wav -t 10 -ss 0 output.wav`
-
-4. **Container fails to start**
+2. **Container fails to start**
    - Check Docker logs: `docker logs <container-id>`
    - Ensure sufficient memory (recommend 4GB+)
 
@@ -169,25 +148,10 @@ asr-transcription-service/
 
 ## Development
 
-### Running Tests
-```bash
-# Install test dependencies
-pip install pytest httpx
-
-# Run tests (when implemented)
-pytest tests/
-```
-
 ### Adding New Features
-1. Model optimization for different languages
-2. Batch processing support
-3. Real-time streaming transcription
-4. GPU acceleration support
-5. WebSocket support for live audio
-
-## License
-
-This project is licensed under the MIT License. The NVIDIA NeMo model is subject to NVIDIA's license terms.
+1. Batch processing support
+2. Real-time streaming transcription
+3. GPU acceleration support
 
 ## Contributing
 
