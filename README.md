@@ -1,6 +1,6 @@
 # ASR-NeMo-FastAPI
 
-A FastAPI-based Automatic Speech Recognition (ASR) service using NVIDIA NeMo's Hindi Conformer CTC model, optimized with ONNX for efficient inference.
+A FastAPI-based Automatic Speech Recognition (ASR) service using NVIDIA NeMo's Hindi Conformer CTC model, optimized for efficient async inference.
 
 ## Features
 
