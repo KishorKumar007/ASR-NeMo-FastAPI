@@ -17,7 +17,7 @@ A FastAPI-based Automatic Speech Recognition (ASR) service using NVIDIA NeMo's H
 1. **Clone the repository**
    ```bash
    git clone <your-repo-url>
-   cd asr-transcription-service
+   cd ASR-NeMo-FastAPI
    ```
 
 2. **Build the Docker image**
